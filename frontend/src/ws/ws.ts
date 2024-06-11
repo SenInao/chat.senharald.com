@@ -12,23 +12,23 @@ class WS {
   constructor(url:string) {
     this.url = url
     this.state = CONNECTING
-    this.ws = new WebSocket(this.url)
+    this.ws = new WebSocket(url)
     this.connect()
   };
 
   connect() {
+    this.ws = new WebSocket(this.url)
+
     this.ws.onopen = () => {
       this.state = CONNECTED
     }
 
     this.ws.onerror = () => {
       this.state = ERROR
-      this.connect()
     }
 
     this.ws.close = () => {
       this.state = CLOSE
-      this.connect()
     }
 
     this.ws.onmessage = (msg) => {

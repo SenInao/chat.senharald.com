@@ -13,8 +13,6 @@ const wss = new WebSocketServer({port})
 console.log("Server running on port " + port)
 
 wss.on('connection', (ws) => {
-  console.log("New connection")
-
   ws.on("message", (data) => {
     try {
       console.log(JSON.parse(data.toString()))
