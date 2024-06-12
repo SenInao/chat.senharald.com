@@ -1,13 +1,24 @@
 import "./User.css"
 
-interface UserProp {
-  name:string
+interface User {
+  id: String,
+  fullname: String,
+  username: String,
+  email: String,
+  profilePicture: String,
+  chats: [],
+  friends: []
 }
 
-export const User = (props:UserProp) => {
+interface UserProp {
+  user: User
+}
+
+
+export const User = ({user}:UserProp, ) => {
   return (
     <div className="user-container">
-      <label>{props.name}</label>
+      <label>{user.username}</label>
     </div>
   )
 }

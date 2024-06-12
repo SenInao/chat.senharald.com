@@ -15,7 +15,8 @@ console.log("Server running on port " + port)
 wss.on('connection', (ws) => {
   ws.on("message", (data) => {
     try {
-      console.log(JSON.parse(data.toString()))
+      const msg = JSON.parse(data.toString())
+      console.log(msg)
     } catch (error) {
       console.log(error)
     }

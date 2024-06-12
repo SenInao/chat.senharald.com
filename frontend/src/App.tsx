@@ -3,9 +3,9 @@ import { Sidebar } from './components/sidebar/Sidebar'
 import { Chatfield } from './components/Chatfield/Chatfield'
 import { useEffect, useState } from "react"
 import { getUser } from "./utils/getUser"
-import WS from './ws/ws'
 
 interface User {
+  id: String,
   fullname: String,
   username: String,
   email: String,
@@ -23,10 +23,8 @@ function App() {
       if (!user) {
         return false
       }
-
       setUser(user)
     })
-
     setLoading(false)
   }, [])
 
@@ -37,6 +35,7 @@ function App() {
   if (!user) {
     return <div className='App'>Not logged in</div>
   }
+
 
   return (
     <div className="App">

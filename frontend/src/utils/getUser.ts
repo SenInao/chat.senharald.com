@@ -6,8 +6,6 @@ export const getUser = async () => {
       withCredentials:true
     })
 
-    console.log(response.data)
-
     if (response.data.status) {
       return response.data.user
     }

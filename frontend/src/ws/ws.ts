@@ -3,6 +3,11 @@ const CONNECTED = 1
 const ERROR = 2
 const CLOSE = 3
 
+interface Package {
+  id: String,
+  action: String,
+  payload: {}
+}
 
 class WS {
   url : string
@@ -21,6 +26,7 @@ class WS {
 
     this.ws.onopen = () => {
       this.state = CONNECTED
+
     }
 
     this.ws.onerror = () => {
@@ -34,6 +40,10 @@ class WS {
     this.ws.onmessage = (msg) => {
       console.log(msg.data)
     }
+  }
+
+  send(action: String, payload: {}) {
+
   }
 }
 

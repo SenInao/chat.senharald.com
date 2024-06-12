@@ -2,8 +2,18 @@ import React from "react"
 import "./Sidebar.css"
 import { User } from "./User"
 
+interface User {
+  id: String,
+  fullname: String,
+  username: String,
+  email: String,
+  profilePicture: String,
+  chats: [],
+  friends: []
+}
+
 interface SidebarProps {
-  friends: string[]
+  friends: User[]
 }
 
 export const Sidebar = ({friends}: SidebarProps)=> {
@@ -13,7 +23,7 @@ export const Sidebar = ({friends}: SidebarProps)=> {
       <div className="friend-list">
         {
           friends.map( friend => {
-            return (<User name={friend}/>)
+            return (<User user={friend}/>)
           })
         }
       </div>
