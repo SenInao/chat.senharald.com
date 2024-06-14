@@ -1,19 +1,9 @@
-import React from "react"
 import "./Sidebar.css"
 import { User } from "./User"
-
-interface User {
-  id: String,
-  fullname: String,
-  username: String,
-  email: String,
-  profilePicture: String,
-  chats: [],
-  friends: []
-}
+import UserType from "../../ws/User"
 
 interface SidebarProps {
-  friends: User[]
+  friends: UserType[]
 }
 
 export const Sidebar = ({friends}: SidebarProps)=> {

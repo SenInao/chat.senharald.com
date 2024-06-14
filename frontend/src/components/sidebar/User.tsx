@@ -1,19 +1,9 @@
 import "./User.css"
-
-interface User {
-  id: String,
-  fullname: String,
-  username: String,
-  email: String,
-  profilePicture: String,
-  chats: [],
-  friends: []
-}
+import UserType from "../../ws/User"
 
 interface UserProp {
-  user: User
+  user: UserType
 }
-
 
 export const User = ({user}:UserProp, ) => {
   return (

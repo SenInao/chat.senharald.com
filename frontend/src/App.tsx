@@ -3,20 +3,11 @@ import { Sidebar } from './components/sidebar/Sidebar'
 import { Chatfield } from './components/Chatfield/Chatfield'
 import { useEffect, useState } from "react"
 import { getUser } from "./utils/getUser"
-
-interface User {
-  id: String,
-  fullname: String,
-  username: String,
-  email: String,
-  profilePicture: String,
-  chats: [],
-  friends: []
-}
+import UserType from "./ws/User"
 
 function App() {
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<UserType | null>(null)
 
   useEffect(() => {
     getUser().then((user) => {
@@ -40,7 +31,7 @@ function App() {
   return (
     <div className="App">
       <Sidebar friends={user.friends}/>
-      <Chatfield/>
+      <Chatfield user={user}/>
     </div>
   );
 }

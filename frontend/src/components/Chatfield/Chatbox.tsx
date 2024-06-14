@@ -1,6 +1,28 @@
 import "./Chatbox.css"
+import UserType from "../../ws/User"
+import { useEffect } from "react"
+import WS from "../../ws/ws"
+import Result from "../../ws/result"
 
-export const Chatbox = () => {
+interface ChatboxProps {
+  user: UserType
+}
+
+const handleNewMessage = (result:Result) => {
+  if (result.update) {
+    if (result.update.update === "new-message") {
+      console.log(result.update.payload)
+    }
+  }
+}
+
+export const Chatbox = ({user}:ChatboxProps) => {
+  useEffect(() => {
+    const ws = new WS("ws://localhost:8080")
+
+    ws.msgCallback = handleNewMessage
+  }, [])
+
   return (
     <div className="chatbox">
       <h1>Tommy Fury</h1>
