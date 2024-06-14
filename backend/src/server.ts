@@ -1,5 +1,8 @@
 import dotenv from "dotenv"
 import { WebSocketServer } from "ws";
+import {Packet} from "./ws/packet";
+import actionHandler from "./ws/actionHandler"
+import Result from "./ws/result";
 
 dotenv.config()
 
@@ -10,15 +13,24 @@ if (typeof port === "string") {
 }
 
 const wss = new WebSocketServer({port})
-console.log("Server running on port " + port)
+console.log("Server running at ws://localhost:" + port)
 
 wss.on('connection', (ws) => {
   ws.on("message", (data) => {
     try {
-      const msg = JSON.parse(data.toString())
-      console.log(msg)
+
+      const packet:Packet = JSON.parse(data.toString())
+      actionHandler(packet, ws)
+
     } catch (error) {
       console.log(error)
+
+      const result: Result = {
+        status: false,
+        error: error
+      }
+
+      ws.send(JSON.stringify(result))
     }
   })
 
