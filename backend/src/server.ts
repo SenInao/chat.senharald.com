@@ -1,10 +1,15 @@
 import dotenv from "dotenv"
+dotenv.config()
+
 import { WebSocketServer } from "ws";
-import {Packet} from "./ws/packet";
+import {Packet, Connection} from "./ws/packet";
 import actionHandler from "./ws/actionHandler"
 import Result from "./ws/result";
+import dbConnect from "./config/db";
 
-dotenv.config()
+dbConnect()
+
+const usersConnected: Connection[] = []
 
 let port = process.env.PORT || 3000
 
@@ -18,9 +23,8 @@ console.log("Server running at ws://localhost:" + port)
 wss.on('connection', (ws) => {
   ws.on("message", (data) => {
     try {
-
       const packet:Packet = JSON.parse(data.toString())
-      actionHandler(packet, ws)
+      actionHandler(packet, ws, usersConnected)
 
     } catch (error) {
       console.log(error)

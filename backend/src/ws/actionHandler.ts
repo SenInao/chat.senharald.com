@@ -1,14 +1,14 @@
 import WebSocket from "ws";
-import {Packet, actions} from "./packet";
+import {Connection, Packet, actions} from "./packet";
 
-function handler(packet: Packet, ws:WebSocket) {
+function handler(packet: Packet, ws:WebSocket, users: Connection[]) {
   const action = actions[packet.action]
 
   if (!action) {
     throw new Error(`Unkown action ${packet.action}`)
   }
 
-  action(packet, ws)
+  action(packet, ws, users)
 }
 
 export default handler
