@@ -1,19 +1,25 @@
 import "./Sidebar.css"
-import { User } from "./User"
-import UserType from "../../ws/User"
+import { Dispatch, SetStateAction } from "react";
+import { Chat } from "../../ws/Chat";
+import { ChatComponent } from "./ChatComponent";
 
 interface SidebarProps {
-  friends: UserType[]
+  chats: Chat[],
+  chatContentSetter: Dispatch<SetStateAction< Chat | null>>
 }
 
-export const Sidebar = ({friends}: SidebarProps)=> {
+export const Sidebar = ({chats, chatContentSetter}: SidebarProps)=> {
   return (
     <div className="sidebar">
-      <h2>Friends</h2>
+      <h2>Chats</h2>
       <div className="friend-list">
         {
-          friends.map( friend => {
-            return (<User user={friend}/>)
+          chats.map( (chat) => {
+            return (
+              <button key={chats.indexOf(chat)}  onClick={() => {chatContentSetter(chat)}}>
+                <ChatComponent chat={chat}/>
+              </button>
+            )
           })
         }
       </div>

@@ -4,10 +4,12 @@ import { Chatfield } from './components/Chatfield/Chatfield'
 import { useEffect, useState } from "react"
 import { getUser } from "./utils/getUser"
 import UserType from "./ws/User"
+import { Chat } from './ws/Chat'
 
 function App() {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<UserType | null>(null)
+  const [chatContent, setChatContent] = useState<Chat | null>(null)
 
   useEffect(() => {
     getUser().then((user) => {
@@ -30,8 +32,8 @@ function App() {
 
   return (
     <div className="App">
-      <Sidebar friends={user.friends}/>
-      <Chatfield user={user}/>
+      <Sidebar chats={user.chats} chatContentSetter={setChatContent}/>
+      <Chatfield user={user} chatContent={chatContent}/>
     </div>
   );
 }

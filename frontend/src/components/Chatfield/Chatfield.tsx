@@ -1,15 +1,17 @@
-import {useRef} from "react"
+import {useRef, useState} from "react"
 import { Chatbox } from "./Chatbox"
 import "./Chatfield.css"
 import UserType from "../../ws/User"
+import { Chat } from "../../ws/Chat"
 import WS from "../../ws/ws"
 import Result from "../../ws/result"
 
 interface ChatfieldProps {
-  user: UserType
+  user: UserType,
+  chatContent: null | Chat
 }
 
-export const Chatfield = ({user}:ChatfieldProps) => {
+export const Chatfield = ({user, chatContent}:ChatfieldProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -18,7 +20,7 @@ export const Chatfield = ({user}:ChatfieldProps) => {
   }
 
   const SendMessage = () => {
-    const ws = new WS("ws://localhost:8080")
+    const ws = new WS("ws://localhost:8080", user.id)
     ws.msgCallback = logMessage
 
     if (!inputRef.current || !buttonRef.current) {
@@ -26,21 +28,28 @@ export const Chatfield = ({user}:ChatfieldProps) => {
     }
 
     if (ws.state === 0) {
-      ws.ws.onopen = () => {
-        if (!inputRef.current) {
+      ws.onOpenCallback = () => {
+        if (!inputRef.current || !chatContent) {
           return
         }
-        ws.send(user.id, "create-message", {receiver: "Mike Tyson", content:inputRef.current.value})
+        ws.send("create-message", {chatId: chatContent.id, author: user.id, content: inputRef.current.value})
       }
     } else {
-      ws.send(user.id, "create-message", {receiver: "Mike Tyson", content:inputRef.current.value})
+      if (!chatContent) {
+        return
+      }
+      ws.send("create-message", {chatId: chatContent.id, author: user.id, content: inputRef.current.value})
     }
   }
 
+  if (chatContent === null) {
+    return <div>HALGKGJ</div>
+  }
+ 
   return (
     <div className="chatfield">
 
-      <Chatbox user={user}/>
+      <Chatbox user={user} chat={chatContent}/>
 
       <div className="sending-container">
         <input ref={inputRef} className="chat-input" type="text"/>

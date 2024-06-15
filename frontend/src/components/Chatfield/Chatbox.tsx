@@ -3,9 +3,12 @@ import UserType from "../../ws/User"
 import { useEffect } from "react"
 import WS from "../../ws/ws"
 import Result from "../../ws/result"
+import MessageComponent from "./message"
+import {Chat, Message} from "../../ws/Chat"
 
 interface ChatboxProps {
-  user: UserType
+  user: UserType,
+  chat:Chat
 }
 
 const handleNewMessage = (result:Result) => {
@@ -16,44 +19,24 @@ const handleNewMessage = (result:Result) => {
   }
 }
 
-export const Chatbox = ({user}:ChatboxProps) => {
+export const Chatbox = ({user, chat}:ChatboxProps) => {
   useEffect(() => {
-    const ws = new WS("ws://localhost:8080")
+    const ws = new WS("ws://localhost:8080", user.id)
 
     ws.msgCallback = handleNewMessage
   }, [])
 
+  console.log(user)
+
   return (
     <div className="chatbox">
-      <h1>Tommy Fury</h1>
+      <h1>{chat.title}</h1>
       <div className="messages-container">
-        <div className="my-message">
-          <label>03:15</label>
-          <label>HeY</label>
-        </div>
-        <div className="friend-message">
-          <label>03:15</label>
-          <label>Hello! how are you?</label>
-        </div>
-        <div className="my-message">
-          <label>03:15</label>
-          <label>Im good bro! Just had a fantastic day!</label>
-        </div>
-        <div className="friend-message">
-          <label>03:15</label>
-          <label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,</label>
-        </div>
-        <div className="my-message">
-          <label>03:15</label>
-          <label>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium</label>
-        </div>
+        {
+          chat.messages.map((message: Message) => {
+            return <MessageComponent msg={message}/>
+          })
+        }
       </div>
     </div>
   )

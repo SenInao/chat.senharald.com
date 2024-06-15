@@ -1,4 +1,5 @@
-import mongoMessage from "../../models/message";
+import Chat from "../../models/chat";
+import Message from "../../models/message";
 import User from "../../models/user";
 import { Packet } from "../packet";
 
@@ -8,32 +9,36 @@ async function createMessage(packet: Packet) {
   }
 
   try {
-    const author = await User.findById(packet.id)
-
-    if (!author) {
+    const user = await User.findById(packet.id)
+    if (!user) {
       throw new Error("User not found")
     }
 
-    const receiver = await User.findOne({username:packet.message.receiver})
+    const chat = await Chat.findById(packet.message.chatId)
 
-    if (!receiver) {
-      throw new Error("User not found")
+    if (!chat) {
+      throw new Error("Chat not found")
     }
 
     const msg = {
-      receiver: receiver.username,
+      chatId: chat.id,
+      author: user.id,
       content: packet.message.content
     }
-
-    const message = await mongoMessage.create(
-      {
-        author: author.id,
-        receiver: receiver.username,
-        content: packet.message.content,
-      }
-    )
+    
+    const message = await Message.create(msg)
 
     message.save({validateBeforeSave: false})
+
+    const messages = chat.messages
+
+    const updatedMessages = [...messages, message]
+
+    await chat.updateOne(
+      {
+        messages: updatedMessages
+      }
+    )
 
     return msg
   } catch (error) {

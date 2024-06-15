@@ -1,29 +1,15 @@
-import User from "../models/user";
-import { Connection, Message } from "../ws/packet";
+import Chat from "../models/chat";
+import { Message, Connection } from "../ws/packet";
 import findUserIndex from "./findUserIndex";
-import mongoose from "mongoose"
 
-export async function broadcastTofriends(senderId: mongoose.Types.ObjectId, message: Message, users: Connection[]) {
-  try {
-    const sender = await User.findById(senderId)
+export async function broadcastToChat(message: Message, users: Connection[]) {
+  const chat = await Chat.findById(message.chatId)
 
-    if (!sender) {
-      throw new Error("User not found")
-    }
+  if (!chat) {return}
 
-    sender.friends.forEach((friend) => {
-      const i = findUserIndex(friend, users)
-
-      if (!i) {
-        return
-      }
-
-      users[i].ws.send(JSON.stringify(message))
-    })
-
-
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+  chat.users.forEach((user) => {
+    const i = findUserIndex(user._id, users)
+    if (!i) {return}
+    users[i].ws.send(JSON.stringify(message))
+  })
 }

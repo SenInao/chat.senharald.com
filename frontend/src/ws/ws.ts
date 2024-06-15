@@ -5,10 +5,16 @@ const CONNECTED = 1
 const ERROR = 2
 const CLOSE = 3
 
+interface Message {
+  chatId: String,
+  author: String,
+  content: String,
+}
+
 interface Packet {
   id: String,
   action: String,
-  payload: {}
+  message?: Message
 }
 
 class WS {
@@ -16,11 +22,15 @@ class WS {
   ws : WebSocket
   state : number
   msgCallback : null | ((result:Result) => void)
+  onOpenCallback : null | any
+  userId: String
 
-  constructor(url:string) {
+  constructor(url:string, userId: String) {
+    this.userId = userId
     this.url = url
     this.state = CONNECTING
     this.msgCallback = null
+    this.onOpenCallback = null
     this.ws = new WebSocket(url)
     this.connect()
   };
@@ -31,6 +41,16 @@ class WS {
     this.ws.onopen = () => {
       this.state = CONNECTED
 
+      const packet:Packet = {
+        id:this.userId,
+        action:"register",
+      }
+
+      this.ws.send(JSON.stringify(packet))
+
+      if (this.onOpenCallback) {
+        this.onOpenCallback()
+      }
     }
 
     this.ws.onerror = () => {
@@ -56,11 +76,11 @@ class WS {
     }
   }
 
-  send(userId: String, action: String, payload: {}) {
+  send(action: String, message: Message | undefined) {
     const packet:Packet = {
-      id:userId,
+      id:this.userId,
       action:action,
-      payload:payload
+      message:message,
     }
 
     this.ws.send(JSON.stringify(packet))
