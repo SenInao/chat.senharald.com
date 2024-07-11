@@ -13,6 +13,8 @@ export const getUser = async () => {
     return false
 
   } catch (error) {
-    throw error
+    if (error === axios.AxiosError) {
+      return false
+    }
   }
 }

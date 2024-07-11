@@ -1,22 +1,29 @@
-import {useRef, useState} from "react"
+import {useRef, useState, SetStateAction, Dispatch} from "react"
 import { Chatbox } from "./Chatbox"
 import "./Chatfield.css"
 import UserType from "../../ws/User"
 import { Chat } from "../../ws/Chat"
 import WS from "../../ws/ws"
 import Result from "../../ws/result"
+import { getUser } from "../../utils/getUser"
 
 interface ChatfieldProps {
   user: UserType,
-  chatContent: null | Chat
+  chatContent: null | Chat,
+  setUser : Dispatch<SetStateAction< UserType | null>>
 }
 
-export const Chatfield = ({user, chatContent}:ChatfieldProps) => {
+export const Chatfield = ({user, chatContent, setUser}:ChatfieldProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const logMessage = (result: Result) => {
-    console.log(result.msg)
+  const logMessage = async (result: Result) => {
+    if (result.update?.update === "new-message") {
+      const newUser = await getUser()
+      if (user) {
+        setUser(newUser)
+      }
+    }
   }
 
   const SendMessage = () => {
@@ -32,13 +39,13 @@ export const Chatfield = ({user, chatContent}:ChatfieldProps) => {
         if (!inputRef.current || !chatContent) {
           return
         }
-        ws.send("create-message", {chatId: chatContent.id, author: user.id, content: inputRef.current.value})
+        ws.send("create-message", {chatId: chatContent._id, author: user.id, content: inputRef.current.value})
       }
     } else {
       if (!chatContent) {
         return
       }
-      ws.send("create-message", {chatId: chatContent.id, author: user.id, content: inputRef.current.value})
+      ws.send("create-message", {chatId: chatContent._id, author: user.id, content: inputRef.current.value})
     }
   }
 

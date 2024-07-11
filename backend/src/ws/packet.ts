@@ -30,3 +30,15 @@ export interface Packet {
   action: keyof typeof actions,
   message?: Message
 }
+
+interface Update {
+  update: String,
+  payload: {}
+}
+
+export interface Result {
+  status: boolean,
+  update?: Update,
+  msg?: String,
+  error?: String,
+}

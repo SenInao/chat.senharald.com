@@ -9,8 +9,8 @@ const MessageComponent = ({msg}: MesageProps) => {
 
   return (
     <div className={className}>
-      <label>03:15</label>
-      <label>HeY</label>
+      <label>3:15</label>
+      <label>{msg.content}</label>
     </div>
   )
 }

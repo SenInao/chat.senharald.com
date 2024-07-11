@@ -8,13 +8,13 @@ import {Chat, Message} from "../../ws/Chat"
 
 interface ChatboxProps {
   user: UserType,
-  chat:Chat
+  chat: Chat
 }
 
 const handleNewMessage = (result:Result) => {
   if (result.update) {
     if (result.update.update === "new-message") {
-      console.log(result.update.payload)
+      console.log(result)
     }
   }
 }
@@ -26,7 +26,6 @@ export const Chatbox = ({user, chat}:ChatboxProps) => {
     ws.msgCallback = handleNewMessage
   }, [])
 
-  console.log(user)
 
   return (
     <div className="chatbox">

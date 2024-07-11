@@ -7,7 +7,7 @@ export interface Message {
 }
 
 export interface Chat {
-  id: String,
+  _id: String,
   title: String,
   users: UserType[],
   messages: Message[]

@@ -17,6 +17,7 @@ function App() {
         return false
       }
       setUser(user)
+      console.log(user)
     })
     setLoading(false)
   }, [])
@@ -33,7 +34,7 @@ function App() {
   return (
     <div className="App">
       <Sidebar chats={user.chats} chatContentSetter={setChatContent}/>
-      <Chatfield user={user} chatContent={chatContent}/>
+      <Chatfield user={user} chatContent={chatContent} setUser={setUser}/>
     </div>
   );
 }
