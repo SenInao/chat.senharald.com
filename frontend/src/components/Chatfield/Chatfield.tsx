@@ -11,16 +11,23 @@ interface ChatfieldProps {
   user: UserType,
   chatContent: null | Chat,
   setUser : Dispatch<SetStateAction< UserType | null>>
+  chatContentSetter : Dispatch<SetStateAction< Chat | null>>
 }
 
-export const Chatfield = ({user, chatContent, setUser}:ChatfieldProps) => {
+
+export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:ChatfieldProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const logMessage = async (result: Result) => {
+  const updateChat = async (result: Result) => {
     if (result.update?.update === "new-message") {
-      const newUser = await getUser()
-      if (user) {
+      const newUser: UserType = await getUser()
+      if (newUser && chatContent) {
+        newUser.chats.forEach((chat: Chat) => {
+          if (chat._id === chatContent._id) {
+            chatContentSetter(chat)
+          }
+        })
         setUser(newUser)
       }
     }
@@ -28,7 +35,7 @@ export const Chatfield = ({user, chatContent, setUser}:ChatfieldProps) => {
 
   const SendMessage = () => {
     const ws = new WS("ws://localhost:8080", user.id)
-    ws.msgCallback = logMessage
+    ws.msgCallback = updateChat
 
     if (!inputRef.current || !buttonRef.current) {
       return
@@ -55,7 +62,6 @@ export const Chatfield = ({user, chatContent, setUser}:ChatfieldProps) => {
  
   return (
     <div className="chatfield">
-
       <Chatbox user={user} chat={chatContent}/>
 
       <div className="sending-container">

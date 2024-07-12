@@ -1,31 +1,22 @@
 import "./Chatbox.css"
 import UserType from "../../ws/User"
-import { useEffect } from "react"
-import WS from "../../ws/ws"
-import Result from "../../ws/result"
 import MessageComponent from "./message"
 import {Chat, Message} from "../../ws/Chat"
+import {useEffect, useRef} from "react"
 
 interface ChatboxProps {
   user: UserType,
   chat: Chat
 }
 
-const handleNewMessage = (result:Result) => {
-  if (result.update) {
-    if (result.update.update === "new-message") {
-      console.log(result)
-    }
-  }
-}
+export const Chatbox = ({chat, user}:ChatboxProps) => {
+  const lastMessageRef = useRef<HTMLDivElement>(null);
 
-export const Chatbox = ({user, chat}:ChatboxProps) => {
   useEffect(() => {
-    const ws = new WS("ws://localhost:8080", user.id)
-
-    ws.msgCallback = handleNewMessage
-  }, [])
-
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "auto" });
+    }
+  }, [chat.messages]);
 
   return (
     <div className="chatbox">
@@ -33,9 +24,10 @@ export const Chatbox = ({user, chat}:ChatboxProps) => {
       <div className="messages-container">
         {
           chat.messages.map((message: Message) => {
-            return <MessageComponent msg={message}/>
+            return <MessageComponent msg={message} user={user}/>
           })
         }
+        <div ref={lastMessageRef}></div>
       </div>
     </div>
   )

@@ -33,8 +33,8 @@ function App() {
 
   return (
     <div className="App">
-      <Sidebar chats={user.chats} chatContentSetter={setChatContent}/>
-      <Chatfield user={user} chatContent={chatContent} setUser={setUser}/>
+      <Sidebar user={user} chatContentSetter={setChatContent}/>
+      <Chatfield user={user} chatContent={chatContent} setUser={setUser} chatContentSetter={setChatContent}/>
     </div>
   );
 }
