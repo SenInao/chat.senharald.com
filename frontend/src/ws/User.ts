@@ -5,7 +5,8 @@ interface User {
   email: String,
   profilePicture: String,
   chats: [],
-  friends: []
+  friends: [],
+  friendRequests: []
 }
 
 export default User

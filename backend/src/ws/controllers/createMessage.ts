@@ -30,15 +30,8 @@ async function createMessage(packet: Packet) {
 
     message.save({validateBeforeSave: false})
 
-    const messages = chat.messages
-
-    const updatedMessages = [...messages, message]
-
-    await chat.updateOne(
-      {
-        messages: updatedMessages
-      }
-    )
+    chat.messages.push(message.id)
+    chat.save()
 
     return msg
   } catch (error) {

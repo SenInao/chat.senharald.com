@@ -16,7 +16,7 @@ const MessageComponent = ({msg, user}: MesageProps) => {
 
   return (
     <div className={className}>
-      <label>3:15</label>
+      <label>{msg.createdAt.split("T")[0]}</label>
       <label>{msg.content}</label>
     </div>
   )

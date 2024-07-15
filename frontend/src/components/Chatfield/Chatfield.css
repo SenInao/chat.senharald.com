@@ -19,6 +19,13 @@ body {
   text-align: center;
 }
 
+.friends-list {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
 .sending-container {
   height: 15vh;
   border-top: 1px solid black;

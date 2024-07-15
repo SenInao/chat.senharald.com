@@ -10,6 +10,15 @@ interface ChatboxProps {
 }
 
 export const Chatbox = ({chat, user}:ChatboxProps) => {
+  var title = chat.title
+  if (chat.dm) {
+    if (user.username === chat.users[0].username) {
+      title = chat.users[1].username
+    } else {
+      title = chat.users[0].username
+    }
+  }
+
   const lastMessageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,11 +29,13 @@ export const Chatbox = ({chat, user}:ChatboxProps) => {
 
   return (
     <div className="chatbox">
-      <h1>{chat.title}</h1>
+      <h1>{title}</h1>
       <div className="messages-container">
         {
           chat.messages.map((message: Message) => {
-            return <MessageComponent msg={message} user={user}/>
+            if (message) {
+              return <MessageComponent key={chat.messages.indexOf(message)} msg={message} user={user}/>
+            }
           })
         }
         <div ref={lastMessageRef}></div>

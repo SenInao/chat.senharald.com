@@ -17,7 +17,7 @@ function App() {
         return false
       }
       setUser(user)
-      console.log(user)
+      console.log(JSON.stringify(user))
     })
     setLoading(false)
   }, [])

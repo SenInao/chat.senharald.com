@@ -10,3 +10,10 @@
 .sidebar h2 {
   text-align: center;
 }
+
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

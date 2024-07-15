@@ -57,7 +57,16 @@ export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:Chatfi
   }
 
   if (chatContent === null) {
-    return <div>HALGKGJ</div>
+    return (
+      <div className="friends-list">
+        <h1>Friends:</h1>
+        {
+          user.friends.map((friend: UserType) => {
+            return <label>{friend.username}</label>
+          })
+        }
+      </div>
+    )
   }
  
   return (
