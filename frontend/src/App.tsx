@@ -5,6 +5,9 @@ import { useEffect, useState } from "react"
 import { getUser } from "./utils/getUser"
 import UserType from "./ws/User"
 import { Chat } from './ws/Chat'
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
+import { AddFriend } from './components/AddFriend/AddFriend'
+import { FriendRequests } from './components/FriendRequests/FriendRequests'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -17,7 +20,7 @@ function App() {
         return false
       }
       setUser(user)
-      console.log(JSON.stringify(user))
+      console.log(user)
     })
     setLoading(false)
   }, [])
@@ -30,11 +33,20 @@ function App() {
     return <div className='App'>Not logged in</div>
   }
 
-
   return (
     <div className="App">
-      <Sidebar user={user} chatContentSetter={setChatContent}/>
-      <Chatfield user={user} chatContent={chatContent} setUser={setUser} chatContentSetter={setChatContent}/>
+      <Router>
+        <Routes>
+          <Route path='/' element={
+            <div className='ChatContainer'>
+              <Sidebar user={user} chatContentSetter={setChatContent}/>
+              <Chatfield user={user} chatContent={chatContent} setUser={setUser} chatContentSetter={setChatContent}/>
+            </div>
+          }/>
+          <Route path='/add-friend' element={<AddFriend/>}/>
+          <Route path='/pending-requests' element={<FriendRequests user={user} setUser={setUser}/>}/>
+        </Routes>
+      </Router>
     </div>
   );
 }

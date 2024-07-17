@@ -8,7 +8,7 @@ body {
 
 .chatfield {
   width: 85%;
-  height: 102vh;
+  height: 100vh;
 
   display: flex;
   flex-direction: column;
@@ -24,6 +24,14 @@ body {
   display: flex;
   flex-direction: column;
   text-align: center;
+  align-items: center;
+}
+
+.friend-name {
+  background-color: lightgray;
+  padding: 2rem;
+  width: auto;
+  font-size: 1.5rem;
 }
 
 .sending-container {

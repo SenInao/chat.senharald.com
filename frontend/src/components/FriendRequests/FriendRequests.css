@@ -1,0 +1,25 @@
+.RequestsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  margin: 5px;
+  background-color: lightgray;
+}
+
+li button {
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+li button:hover {
+  background-color: gray;
+}

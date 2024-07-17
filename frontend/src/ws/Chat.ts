@@ -3,7 +3,7 @@ import UserType from "./User"
 export interface Message {
   _id: String,
   chatId: String,
-  author: String,
+  author: UserType,
   content: String
   createdAt: String,
   updatedAt: String,

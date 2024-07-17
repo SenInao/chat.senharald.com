@@ -47,12 +47,14 @@ export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:Chatfi
           return
         }
         ws.send("create-message", {chatId: chatContent._id, author: user.id, content: inputRef.current.value})
+        inputRef.current.value = ""
       }
     } else {
       if (!chatContent) {
         return
       }
       ws.send("create-message", {chatId: chatContent._id, author: user.id, content: inputRef.current.value})
+      inputRef.current.value = ""
     }
   }
 
@@ -62,7 +64,7 @@ export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:Chatfi
         <h1>Friends:</h1>
         {
           user.friends.map((friend: UserType) => {
-            return <label>{friend.username}</label>
+            return <label key={user.friends.indexOf(friend)} className="friend-name">{friend.username}</label>
           })
         }
       </div>
