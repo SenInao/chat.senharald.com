@@ -15,7 +15,7 @@ export const FriendRequests = ({user, setUser}: Props) => {
 
   const handleButtonClick = async (username: String, action: String) => {
     try {
-      const response = await axios.post(`http://localhost:80/api/user/${action}-friend-request`, {username: username}, {withCredentials: true})
+      const response = await axios.post(`http://senharald.com/api/user/${action}-friend-request`, {username: username}, {withCredentials: true})
 
       if (response.data.status) {
         const newUser = await getUser()

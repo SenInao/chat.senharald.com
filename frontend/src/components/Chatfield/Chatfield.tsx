@@ -34,7 +34,7 @@ export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:Chatfi
   }
 
   const SendMessage = () => {
-    const ws = new WS("ws://localhost:8080", user.id)
+    const ws = new WS("ws://chat.senharald.com", user.id)
     ws.msgCallback = updateChat
 
     if (!inputRef.current || !buttonRef.current) {
