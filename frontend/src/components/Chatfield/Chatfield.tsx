@@ -6,6 +6,8 @@ import { Chat } from "../../ws/Chat"
 import WS from "../../ws/ws"
 import Result from "../../ws/result"
 import { getUser } from "../../utils/getUser"
+import { IoMdSend } from "react-icons/io";
+import {useEffect} from "react"
 
 interface ChatfieldProps {
   user: UserType,
@@ -16,26 +18,28 @@ interface ChatfieldProps {
 
 
 export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:ChatfieldProps) => {
+
+  useEffect(() => {
+    getUser().then((user) => {
+      if (!user || !chatContent) {
+        return false
+      }
+      setUser(user)
+      user.chats.forEach((chat:Chat) => {
+        if (chat._id === chatContent._id) {
+          if (chat.messages.length != chatContent.messages.length) {
+            chatContentSetter(chat)
+          }
+        }
+      })
+    })
+  })
+
   const buttonRef = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const updateChat = async (result: Result) => {
-    if (result.update?.update === "new-message") {
-      const newUser: UserType = await getUser()
-      if (newUser && chatContent) {
-        newUser.chats.forEach((chat: Chat) => {
-          if (chat._id === chatContent._id) {
-            chatContentSetter(chat)
-          }
-        })
-        setUser(newUser)
-      }
-    }
-  }
-
   const SendMessage = () => {
     const ws = new WS("ws://chat.senharald.com/ws", user.id)
-    ws.msgCallback = updateChat
 
     if (!inputRef.current || !buttonRef.current) {
       return
@@ -77,7 +81,9 @@ export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:Chatfi
 
       <div className="sending-container">
         <input ref={inputRef} className="chat-input" type="text"/>
-        <button ref={buttonRef} className="send-button" onClick={SendMessage}>SEND</button>
+        <button ref={buttonRef} className="send-button" onClick={SendMessage}>
+          <IoMdSend className="sendimg"/>
+        </button>
       </div>
 
     </div>

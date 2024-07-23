@@ -1,0 +1,30 @@
+.my-message, .friend-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 60%;
+  margin-bottom: 1.2rem;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  border-radius: 2rem;
+  padding: 1.2rem;
+}
+
+.my-message {
+  align-self: flex-end;
+}
+
+.my-message .message-content {
+  background-color: lightgreen;
+}
+
+.friend-message {
+  align-self: flex-start;
+}
+
+.friend-message .message-content {
+  background-color: lightgray;
+}

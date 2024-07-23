@@ -20,7 +20,7 @@ export const AddFriend = () => {
 
     infoRef.current.style.display = "none"
     try {
-      const response = await axios.post("http://senharald.com/api/user/send-friend-request/", {username: inputRef.current.value}, {
+      const response = await axios.post("http://localhost:80/api/chat/send-friend-request/", {username: inputRef.current.value}, {
         withCredentials:true
       })
 

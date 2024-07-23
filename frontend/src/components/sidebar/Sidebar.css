@@ -1,14 +1,15 @@
 .sidebar {
-  width: auto;
+  width: 30%;
   height: 100vh;
   background-color: lightgray;
 
   justify-content: center;
   border-right: 1px solid black;
+  overflow: scroll;
 }
 
-.sidebar h2 {
-  text-align: center;
+.sidebar h3 {
+  font-size: 2.5vw;
 }
 
 .navbar {

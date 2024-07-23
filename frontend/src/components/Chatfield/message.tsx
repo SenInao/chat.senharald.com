@@ -1,5 +1,6 @@
 import { Message } from "../../ws/Chat"
 import User from "../../ws/User"
+import "./message.css"
 
 interface MesageProps {
   msg: Message
@@ -16,9 +17,11 @@ const MessageComponent = ({msg, user}: MesageProps) => {
 
   return (
     <div className={className}>
-      <label>{msg.author.username}</label>
-      <label>{msg.createdAt.split("T")[0]}</label>
-      <label>{msg.content}</label>
+      <label className="username">{msg.author.username}</label>
+      <div className="message-content">
+        <label className="date">{msg.createdAt.split("T")[0]}</label>
+        <label>{msg.content}</label>
+      </div>
     </div>
   )
 }

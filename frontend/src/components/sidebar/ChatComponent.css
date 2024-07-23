@@ -1,14 +1,29 @@
 .chat-container{
   margin: 1.3rem;
-  font-size: 1.2rem;
+  font-size: 2.5vw;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.chat-container img {
+.image {
   width: 50px;
   height: 50px;
   border-radius: 50px;
-  color: gray;
+}
+
+.add-user-to-chat {
+  z-index: 2;
+  border-radius: 5px;
+  border: 1px solid gray;
+  background-color: lightgrey;
+  color: black;
+}
+
+.add-user-to-chat:hover {
+  background-color: darkgray;
+}
+
+.uname-input {
+  display: none;
 }

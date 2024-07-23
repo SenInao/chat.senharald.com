@@ -7,7 +7,7 @@ body {
 }
 
 .chatfield {
-  width: 85%;
+  width: 70%;
   height: 100vh;
 
   display: flex;
@@ -66,4 +66,9 @@ body {
 
 .send-button:hover {
   background-color: gray;
+}
+
+.sendimg {
+  width: 100%;
+  height: 100%;
 }

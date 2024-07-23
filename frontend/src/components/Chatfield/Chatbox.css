@@ -10,31 +10,36 @@
 
 .messages-container {
   width: 70%;
-  height: 100%;
+  margin-top: 10vh;
   display: flex;
   flex-direction: column;
-}
-
-.my-message, .friend-message {
-  display: flex;
-  flex-direction: column;
-  max-width: 60%;
-  margin: 1.2rem;
-  padding: 1.2rem;
-  border-radius: 2rem;
-  word-wrap: break-word;
-}
-
-.my-message {
-  align-self: flex-end;
-  background-color: lightgreen;
-}
-
-.friend-message {
-  align-self: flex-start;
-  background-color: lightgray;
 }
 
 .lastelement {
   padding: 5%;
+}
+
+.chatbox-header {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  height: 10vh;
+  background-color: lightgray;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+}
+
+.chatbox-header h1 {
+  margin-left: 2rem;
+}
+
+.chatbox-header div{
+  margin-right: 2rem;
+}
+
+.error-label {
+  display: none;
 }
