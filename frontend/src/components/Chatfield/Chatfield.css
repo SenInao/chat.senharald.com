@@ -40,22 +40,28 @@ body {
   border-left: 1px solid black;
   border-right: 1px solid black;
   border-radius: 1.2rem;
+  width: 80%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .chat-input {
-  margin: 1.5rem;
-  padding: 1.3rem;
   font-size: 1.5rem;
-
   border-radius: 2rem;
   border: 1px solid black;
+  width: 60%;
+  height: 50%;
 }
 
 .send-button {
-  margin: 1.5rem;
   padding: 1.2rem;
   border-radius: 1.2rem;
   border: 1px solid black;
+  width: 20%;
+  height: 50%;
 }
 
 .send-button:hover {

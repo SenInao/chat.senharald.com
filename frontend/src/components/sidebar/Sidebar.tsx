@@ -20,9 +20,27 @@ export const Sidebar = ({user, chatContentSetter}: SidebarProps)=> {
         <button className="navbar-button" onClick={() => navigate("/pending-requests")}>Friend requests</button>
       </div>
       <div className="chat-list">
-        <h2>Chats</h2>
+        <h3>Direct messages<button className="add-button" onClick={() => navigate("/add-friend")}>+</button></h3>
         {
           user.chats.map((chat) => {
+            if (!chat.dm){
+              return
+            }
+            return (
+              <button key={user.chats.indexOf(chat)} className="chat-button"  onClick={() => {chatContentSetter(chat)}}>
+                <ChatComponent chat={chat} user={user}/>
+              </button>
+            )
+          })
+        }
+      </div>
+      <div className="chat-list">
+        <h3>Group chats <button className="add-button" onClick={() => navigate("/create-gc")}>+</button></h3>
+        {
+          user.chats.map((chat) => {
+            if (chat.dm){
+              return
+            }
             return (
               <button key={user.chats.indexOf(chat)} className="chat-button"  onClick={() => {chatContentSetter(chat)}}>
                 <ChatComponent chat={chat} user={user}/>

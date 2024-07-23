@@ -8,6 +8,7 @@ import { Chat } from './ws/Chat'
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import { AddFriend } from './components/AddFriend/AddFriend'
 import { FriendRequests } from './components/FriendRequests/FriendRequests'
+import { CreateGC } from './components/CreateGC/CreateGC'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -45,6 +46,7 @@ function App() {
           }/>
           <Route path='/add-friend' element={<AddFriend/>}/>
           <Route path='/pending-requests' element={<FriendRequests user={user} setUser={setUser}/>}/>
+          <Route path='/create-gc' element={<CreateGC/>}/>
         </Routes>
       </Router>
     </div>

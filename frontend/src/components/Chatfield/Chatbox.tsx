@@ -38,7 +38,7 @@ export const Chatbox = ({chat, user}:ChatboxProps) => {
             }
           })
         }
-        <div ref={lastMessageRef}></div>
+        <div className="lastelement" ref={lastMessageRef}> </div>
       </div>
     </div>
   )

@@ -16,6 +16,7 @@ const MessageComponent = ({msg, user}: MesageProps) => {
 
   return (
     <div className={className}>
+      <label>{msg.author.username}</label>
       <label>{msg.createdAt.split("T")[0]}</label>
       <label>{msg.content}</label>
     </div>

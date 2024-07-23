@@ -5,7 +5,7 @@ interface User {
   fullname: String,
   username: String,
   email: String,
-  profilePicture: String,
+  profilePicture: string,
   chats: Chat[],
   friends: User[],
   friendRequests: User[]
