@@ -1,27 +1,22 @@
-import Result from "./result"
+import Update from "./update"
 
 const CONNECTING = 0
 const CONNECTED = 1
 const ERROR = 2
 const CLOSE = 3
 
-interface Message {
-  chatId: String,
-  author: String,
-  content: String,
-}
 
 interface Packet {
   id: String,
   action: String,
-  message?: Message
+  payload?: any
 }
 
 class WS {
   url : string
   ws : WebSocket
   state : number
-  msgCallback : null | ((result:Result) => void)
+  msgCallback : null | ((update: Update) => void)
   onOpenCallback : null | any
   userId: String
 
@@ -30,7 +25,6 @@ class WS {
     this.url = url
     this.state = CONNECTING
     this.msgCallback = null
-    this.onOpenCallback = null
     this.ws = new WebSocket(url)
     this.connect()
   };
@@ -47,10 +41,6 @@ class WS {
       }
 
       this.ws.send(JSON.stringify(packet))
-
-      if (this.onOpenCallback) {
-        this.onOpenCallback()
-      }
     }
 
     this.ws.onerror = () => {
@@ -71,16 +61,17 @@ class WS {
           console.log(msg.data)
         }
       } catch (error) {
+        console.log(error)
         console.log(msg.data)
       }
     }
   }
 
-  send(action: String, message: Message | undefined) {
+  send(action: String, payload:any) {
     const packet:Packet = {
       id:this.userId,
       action:action,
-      message:message,
+      payload:payload,
     }
 
     this.ws.send(JSON.stringify(packet))

@@ -1,34 +1,42 @@
 import './App.css'
 import { Sidebar } from './components/sidebar/Sidebar'
 import { Chatfield } from './components/Chatfield/Chatfield'
-import { useEffect, useState } from "react"
-import { getUser } from "./utils/getUser"
-import UserType from "./ws/User"
-import { Chat } from './ws/Chat'
+import { useEffect, useState} from "react"
+import User from './ws/User'
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import { AddFriend } from './components/AddFriend/AddFriend'
 import { FriendRequests } from './components/FriendRequests/FriendRequests'
 import { CreateGC } from './components/CreateGC/CreateGC'
+import WS from './ws/ws'
+import { getUser } from './utils/getUser'
+import Update from './ws/update'
 
 function App() {
-  const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<UserType | null>(null)
-  const [chatContent, setChatContent] = useState<Chat | null>(null)
+  const [chatIndex, setChatIndex] = useState<number | null>(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [ws, setWS] = useState<WS | null>(null)
+
+
+  const msgCallback = (update: Update) => {
+    if (update.status) {
+      setUser(update.user)
+    }
+  }
 
   useEffect(() => {
-    getUser().then((user) => {
-      if (!user) {
-        return false
-      }
-      setUser(user)
-      console.log(user)
-    })
-    setLoading(false)
+    try {
+      getUser().then(newUser => {
+        if (newUser) {
+          setUser(newUser)
+          const newWs = new WS("ws://localhost:8080", newUser.id)
+          newWs.msgCallback = msgCallback
+          setWS(newWs)
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }, [])
-
-  if (loading) {
-    return <div className='App'>Loading...</div>
-  }
 
   if (!user) {
     return <div className='App'>Not logged in</div>
@@ -40,8 +48,8 @@ function App() {
         <Routes>
           <Route path='/' element={
             <div className='ChatContainer'>
-              <Sidebar user={user} chatContentSetter={setChatContent}/>
-              <Chatfield user={user} chatContent={chatContent} setUser={setUser} chatContentSetter={setChatContent}/>
+              <Sidebar user={user} setChatIndex={setChatIndex}/>
+              <Chatfield ws={ws} user={user} chatIndex={chatIndex}/>
             </div>
           }/>
           <Route path='/add-friend' element={<AddFriend/>}/>

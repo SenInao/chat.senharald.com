@@ -14,7 +14,7 @@ const usersConnected: Connection[] = []
 
 function removeUserConnected(ws: WebSocket) {
     const i = findUserByWs(ws, usersConnected)
-    if (i) {
+    if (i !== false) {
       usersConnected.splice(i, 1)
     }
 } 

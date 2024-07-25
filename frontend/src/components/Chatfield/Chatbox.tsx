@@ -1,16 +1,17 @@
 import "./Chatbox.css"
 import UserType from "../../ws/User"
 import MessageComponent from "./message"
-import {Chat, Message} from "../../ws/Chat"
+import {Message} from "../../ws/Chat"
 import {useEffect, useRef} from "react"
 import axios from "axios"
 
 interface ChatboxProps {
   user: UserType,
-  chat: Chat
+  chatIndex: number
 }
 
-export const Chatbox = ({chat, user}:ChatboxProps) => {
+export const Chatbox = ({chatIndex, user}:ChatboxProps) => {
+  const chat = user.chats[chatIndex]
   const errorlabelRef = useRef<HTMLLabelElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -78,9 +79,7 @@ export const Chatbox = ({chat, user}:ChatboxProps) => {
       <div className="messages-container">
         {
           chat.messages.map((message: Message) => {
-            if (message) {
-              return <MessageComponent key={chat.messages.indexOf(message)} msg={message} user={user}/>
-            }
+            return <MessageComponent key={chat.messages.indexOf(message)} msg={message} user={user}/>
           })
         }
         <div className="lastelement" ref={lastMessageRef}> </div>

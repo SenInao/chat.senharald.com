@@ -1,24 +1,22 @@
 import "./Sidebar.css"
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { Chat } from "../../ws/Chat";
+import { Dispatch, SetStateAction} from "react";
 import { ChatComponent } from "./ChatComponent";
 import User from "../../ws/User";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../../utils/getUser";
 
 interface SidebarProps {
   user: User,
-  chatContentSetter: Dispatch<SetStateAction< Chat | null>>
+  setChatIndex: Dispatch<SetStateAction< number | null>>
 }
 
-export const Sidebar = ({user, chatContentSetter}: SidebarProps)=> {
+export const Sidebar = ({user, setChatIndex}: SidebarProps)=> {
   const navigate = useNavigate()
 
   return (
     <div className="sidebar">
 
       <div className="navbar">
-        <button className="navbar-button" onClick={() => chatContentSetter(null)}>Friends</button>
+        <button className="navbar-button" onClick={() => setChatIndex(null)}>Friends</button>
         <button className="navbar-button" onClick={() => navigate("/add-friend")}>Add Friend</button>
         <button className="navbar-button" onClick={() => navigate("/pending-requests")}>Friend requests</button>
       </div>
@@ -27,11 +25,12 @@ export const Sidebar = ({user, chatContentSetter}: SidebarProps)=> {
         <h3>Direct messages<button className="add-button" onClick={() => navigate("/add-friend")}>+</button></h3>
         {
           user.chats.map((chat) => {
+            let chatIndex = user.chats.indexOf(chat)
             if (!chat.dm){
-              return
+              return <div key={chatIndex}></div>
             }
             return (
-              <button key={user.chats.indexOf(chat)} className="chat-button"  onClick={() => {chatContentSetter(chat)}}>
+              <button key={chatIndex} className="chat-button"  onClick={() => {setChatIndex(chatIndex)}}>
                 <ChatComponent chat={chat} user={user}/>
               </button>
             )
@@ -43,11 +42,12 @@ export const Sidebar = ({user, chatContentSetter}: SidebarProps)=> {
         <h3>Group chats <button className="add-button" onClick={() => navigate("/create-gc")}>+</button></h3>
         {
           user.chats.map((chat) => {
+            let chatIndex = user.chats.indexOf(chat)
             if (chat.dm){
-              return
+              return <div key={chatIndex}></div>
             }
             return (
-              <button key={user.chats.indexOf(chat)} className="chat-button"  onClick={() => {chatContentSetter(chat)}}>
+              <button key={chatIndex} className="chat-button"  onClick={() => {setChatIndex(chatIndex)}}>
                 <ChatComponent chat={chat} user={user}/>
               </button>
             )

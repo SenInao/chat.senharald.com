@@ -1,22 +1,52 @@
-import Chat from "../models/chat";
-import { Message, Connection, Packet } from "../ws/packet";
-import Result from "../ws/result";
+import User from "../models/user";
+import "../models/chat"
+import "../models/message"
+import { Connection } from "../ws/packet";
+import mongoose from "mongoose";
 import findUserIndex from "./findUserIndex";
 
-export async function broadcastToChat(message: Message, users: Connection[]) {
-  const chat = await Chat.findById(message.chatId)
+export async function broadcastToUsers(userIds: mongoose.Types.ObjectId[], connections: Connection[]) {
+  userIds.forEach(async (id) => {
+    const connectionIndexes = findUserIndex(id, connections)
+    if (!connectionIndexes) {
+      return
+    }
 
-  if (!chat) {return}
+    const user = await User.findById(id)
+      .populate({
+        path: "friends",
+        select: "username profilePicture -_id"
+      })
+      .populate({
+        path: "friendRequests",
+        select: "username profilePicture -_id"
+      })
+      .populate({
+        path: "chats",
+        populate: [
+          {
+            path: "messages",
+            populate: [
+              {
+                path: "author",
+                select: "username profilePicture -_id"
+              }
+            ]
+          },
+          {
+            path: "users",
+            select: "username profilePicture -_id"
+          }
+        ]
+      }).lean()
 
-  const packet: Result= {
-    status: true,
-    update: {update: "new-message", payload: message}
-  }
+    const packet = {
+      status: true,
+      user: user
+    }
 
-  chat.users.forEach((user) => {
-    const indexes = findUserIndex(user._id, users)
-    indexes.forEach((i) => {
-      users[i].ws.send(JSON.stringify(packet))
+    connectionIndexes.forEach((connectionIndex) => {
+      connections[connectionIndex].ws.send(JSON.stringify(packet))
     })
   })
 }

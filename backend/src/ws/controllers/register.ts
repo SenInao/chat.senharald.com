@@ -6,5 +6,6 @@ export default function register(packet:Packet, ws:WebSocket, users: Connection[
     id: packet.id,
     ws: ws,
   }
+
   users.push(connection)
 }

@@ -1,73 +1,42 @@
-import {useRef, useState, SetStateAction, Dispatch} from "react"
+import {useRef} from "react"
 import { Chatbox } from "./Chatbox"
 import "./Chatfield.css"
-import UserType from "../../ws/User"
-import { Chat } from "../../ws/Chat"
-import WS from "../../ws/ws"
-import Result from "../../ws/result"
-import { getUser } from "../../utils/getUser"
 import { IoMdSend } from "react-icons/io";
-import {useEffect} from "react"
+import WS from "../../ws/ws"
+import User from "../../ws/User"
 
 interface ChatfieldProps {
-  user: UserType,
-  chatContent: null | Chat,
-  setUser : Dispatch<SetStateAction< UserType | null>>
-  chatContentSetter : Dispatch<SetStateAction< Chat | null>>
+  ws: WS | null
+  user: User
+  chatIndex: number | null,
 }
 
-
-export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:ChatfieldProps) => {
-
-  useEffect(() => {
-    getUser().then((user) => {
-      if (!user || !chatContent) {
-        return false
-      }
-      setUser(user)
-      user.chats.forEach((chat:Chat) => {
-        if (chat._id === chatContent._id) {
-          if (chat.messages.length != chatContent.messages.length) {
-            chatContentSetter(chat)
-          }
-        }
-      })
-    })
-  })
-
+export const Chatfield = ({ws, user, chatIndex}:ChatfieldProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const SendMessage = () => {
-    const ws = new WS("ws://chat.senharald.com/ws", user.id)
-
-    if (!inputRef.current || !buttonRef.current) {
-      return
+  const handleKeyPress = (e:any) => {
+    if (e.code === "Enter") {
+      SendMessage()
     }
+  }
 
-    if (ws.state === 0) {
-      ws.onOpenCallback = () => {
-        if (!inputRef.current || !chatContent) {
-          return
-        }
-        ws.send("create-message", {chatId: chatContent._id, author: user.id, content: inputRef.current.value})
-        inputRef.current.value = ""
-      }
-    } else {
-      if (!chatContent) {
+  const SendMessage = () => {
+    if (ws && (chatIndex !== null) && inputRef.current) {
+      if (!inputRef.current.value) {
         return
       }
-      ws.send("create-message", {chatId: chatContent._id, author: user.id, content: inputRef.current.value})
+      ws.send("create-message", {chatId: user.chats[chatIndex]._id, author: user.id, content: inputRef.current.value})
       inputRef.current.value = ""
     }
   }
 
-  if (chatContent === null) {
+  if (chatIndex === null) {
     return (
       <div className="friends-list">
         <h1>Friends:</h1>
         {
-          user.friends.map((friend: UserType) => {
+          user.friends.map((friend: User) => {
             return <label key={user.friends.indexOf(friend)} className="friend-name">{friend.username}</label>
           })
         }
@@ -77,10 +46,10 @@ export const Chatfield = ({user, chatContent, setUser, chatContentSetter}:Chatfi
  
   return (
     <div className="chatfield">
-      <Chatbox user={user} chat={chatContent}/>
+      <Chatbox user={user} chatIndex={chatIndex}/>
 
       <div className="sending-container">
-        <input ref={inputRef} className="chat-input" type="text"/>
+        <input ref={inputRef} className="chat-input" type="text" onKeyDown={handleKeyPress}/>
         <button ref={buttonRef} className="send-button" onClick={SendMessage}>
           <IoMdSend className="sendimg"/>
         </button>
