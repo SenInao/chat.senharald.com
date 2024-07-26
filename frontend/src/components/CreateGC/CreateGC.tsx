@@ -1,39 +1,40 @@
-import axios from "axios"
 import { useRef } from "react"
 import { useNavigate } from "react-router-dom"
+import { infoLabelShow } from "../../utils/infoLabel"
+import WS, { Update } from "../../ws/ws"
 import "./CreateGC.css"
 
-export const CreateGC = () => {
+interface Props {
+  ws: WS
+}
+
+export const CreateGC = ({ws}:Props) => {
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const errorRef = useRef<HTMLLabelElement>(null)
 
+  const callback = (update: Update) => {
+    infoLabelShow("New gc created", "green", errorRef)
+  }
+
+  const errCallback = (update: Update) => {
+    if (update.msg) {
+      infoLabelShow(update.msg, "red", errorRef)
+    }
+  }
+
   const createGc = async () => {
     if (!inputRef.current || !errorRef.current || !buttonRef.current) {
       return
     }
-
     if (!inputRef.current.value) {
-      errorRef.current.style.display = "block"
-      errorRef.current.style.color = "red"
-      errorRef.current.innerText = "Please enter a name"
+      infoLabelShow("Name required", "red", errorRef)
       return
     }
     buttonRef.current.style.display = "none"
-    errorRef.current.style.display = "none"
-
     try {
-      const response = await axios.post("http://localhost:80/api/chat/create-chat", {title:inputRef.current.value}, {withCredentials:true})
-
-      if (!response.data.status) {
-        console.log(response.data.message)
-        return
-      }
-
-      errorRef.current.style.display = "block"
-      errorRef.current.style.color = "green"
-      errorRef.current.innerText = "Success! New gc created"
+      ws.send("create-gc", {title: inputRef.current.value}, callback, errCallback)
     } catch (error) {
       console.log(error)
       return

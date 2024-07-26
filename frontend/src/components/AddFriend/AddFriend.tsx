@@ -1,12 +1,27 @@
 import { useNavigate } from "react-router-dom"
 import {useRef} from "react"
 import "./AddFriend.css"
-import axios from "axios"
+import WS, {Update} from "../../ws/ws"
+import { infoLabelShow } from "../../utils/infoLabel"
 
-export const AddFriend = () => {
+interface Props {
+  ws: WS
+}
+
+export const AddFriend = ({ws}:Props) => {
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>(null)
   const infoRef = useRef<HTMLLabelElement>(null)
+
+  const callback = (update:Update) => {
+    infoLabelShow("Friend added to gc", "green", infoRef)
+  }
+
+  const errCallback = (update:Update) => {
+    if (update.msg) {
+      infoLabelShow(update.msg, "red", infoRef)
+    }
+  }
 
   const sendFriendRequest = async () => {
     if (!inputRef.current || !infoRef.current) {
@@ -14,26 +29,12 @@ export const AddFriend = () => {
     }
 
     if (!inputRef.current.value) {
-      infoRef.current.innerText = "Please provide a username"
-      infoRef.current.style.display = "block"
+      infoLabelShow("Please enter a username", "red", infoRef)
+      return
     }
 
-    infoRef.current.style.display = "none"
     try {
-      const response = await axios.post("http://localhost:80/api/chat/send-friend-request/", {username: inputRef.current.value}, {
-        withCredentials:true
-      })
-
-      infoRef.current.style.display = "block"
-
-      if (response.data.status) {
-        infoRef.current.style.color = "green"
-        infoRef.current.innerText = "Friend request sent!"
-      } else {
-        infoRef.current.style.color = "red"
-        infoRef.current.innerText = response.data.message
-      }
-
+      ws.send("add-friend", {username: inputRef.current.value}, callback, errCallback)
     } catch (error) {
       console.log(error)
     }

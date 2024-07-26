@@ -3,41 +3,40 @@ import UserType from "../../ws/User"
 import MessageComponent from "./message"
 import {Message} from "../../ws/Chat"
 import {useEffect, useRef} from "react"
-import axios from "axios"
+import WS, {Update} from "../../ws/ws"
+import { infoLabelShow } from "../../utils/infoLabel"
 
 interface ChatboxProps {
   user: UserType,
   chatIndex: number
+  ws: WS
 }
 
-export const Chatbox = ({chatIndex, user}:ChatboxProps) => {
+export const Chatbox = ({chatIndex, user, ws}:ChatboxProps) => {
   const chat = user.chats[chatIndex]
   const errorlabelRef = useRef<HTMLLabelElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const callback = (update: Update) => {
+    infoLabelShow("Friend added to gc", "green", errorlabelRef)
+  }
+
+  const errCallback = (update: Update) => {
+    if (update.msg) {
+      infoLabelShow(update.msg, "red", errorlabelRef)
+    }
+  }
 
   const addFriendToChat = async () => {
     if (!errorlabelRef.current || !inputRef.current) {
       return
     }
     if (!inputRef.current.value) {
-      errorlabelRef.current.style.display = "block"
-      errorlabelRef.current.style.color = "red"
-      errorlabelRef.current.innerText = "please enter username"
+      infoLabelShow("Please enter a username", "red", errorlabelRef)
       return
     }
     try {
-      errorlabelRef.current.style.display = "none"
-      const response = await axios.post("http://localhost:80/api/chat/add-friend-to-chat", {friend: {username: inputRef.current.value}, chatId: chat._id}, {withCredentials: true})
-      errorlabelRef.current.style.display = "block"
-      if (!response.data.status) {
-        errorlabelRef.current.style.color = "red"
-        errorlabelRef.current.innerText = response.data.message
-        return
-      }
-      errorlabelRef.current.style.display = "block"
-      errorlabelRef.current.style.color = "green"
-      errorlabelRef.current.innerText = "Added friend to chat"
-
+      ws.send("chat-invite", {username: inputRef.current.value, chatId: user.chats[chatIndex]._id}, callback, errCallback)
       inputRef.current.value = ""
     } catch (error) {
       console.log(error)

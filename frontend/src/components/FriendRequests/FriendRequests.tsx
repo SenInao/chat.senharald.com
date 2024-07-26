@@ -1,31 +1,19 @@
-import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import { getUser } from "../../utils/getUser"
 import User from "../../ws/User"
 import "./FriendRequests.css"
-import { Dispatch, SetStateAction } from "react"
+import WS from "../../ws/ws"
 
 interface Props {
   user: User
-  setUser : Dispatch<SetStateAction< User| null>>
+  ws: WS
 }
 
-export const FriendRequests = ({user, setUser}: Props) => {
+export const FriendRequests = ({user, ws}: Props) => {
   const navigate = useNavigate()
 
-  const handleButtonClick = async (username: String, action: String) => {
+  const handleButtonClick = async (username: String, acceptRequest: boolean) => {
     try {
-      const response = await axios.post(`http://localhost:80/api/chat/${action}-friend-request`, {username: username}, {withCredentials: true})
-
-      if (response.data.status) {
-        const newUser = await getUser()
-        if (newUser) {
-          setUser(newUser)
-        }
-      } else {
-        console.log(response.data.message)
-      }
-
+      ws.send("handle-friend-request", {username: username, acceptRequest: acceptRequest})
     } catch (error) {
       console.log(error)
     }
@@ -42,8 +30,8 @@ export const FriendRequests = ({user, setUser}: Props) => {
             return (
               <li key={user.friendRequests.indexOf(request)} className="friend-request">
                 <label>{request.username}</label>
-                <button onClick={() => handleButtonClick(request.username, "accept")}>Accept</button>
-                <button onClick={() => handleButtonClick(request.username, "decline")}>Decline</button>
+                <button onClick={() => handleButtonClick(request.username, true)}>Accept</button>
+                <button onClick={() => handleButtonClick(request.username, false)}>Decline</button>
               </li>
             )
           })}

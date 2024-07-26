@@ -6,7 +6,7 @@ import WS from "../../ws/ws"
 import User from "../../ws/User"
 
 interface ChatfieldProps {
-  ws: WS | null
+  ws: WS
   user: User
   chatIndex: number | null,
 }
@@ -46,7 +46,7 @@ export const Chatfield = ({ws, user, chatIndex}:ChatfieldProps) => {
  
   return (
     <div className="chatfield">
-      <Chatbox user={user} chatIndex={chatIndex}/>
+      <Chatbox user={user} chatIndex={chatIndex} ws={ws}/>
 
       <div className="sending-container">
         <input ref={inputRef} className="chat-input" type="text" onKeyDown={handleKeyPress}/>

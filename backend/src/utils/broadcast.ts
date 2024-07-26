@@ -1,9 +1,16 @@
 import User from "../models/user";
 import "../models/chat"
 import "../models/message"
-import { Connection } from "../ws/packet";
+import { Connection, Update } from "../ws/packet";
 import mongoose from "mongoose";
 import findUserIndex from "./findUserIndex";
+
+export async function returnUpdate(userId:mongoose.Types.ObjectId, update:Update, connections: Connection[]) {
+  const connectionIndexes = findUserIndex(userId, connections)
+  connectionIndexes.forEach((index) => {
+    connections[index].ws.send(JSON.stringify(update))
+  })
+}
 
 export async function broadcastToUsers(userIds: mongoose.Types.ObjectId[], connections: Connection[]) {
   userIds.forEach(async (id) => {
@@ -40,8 +47,9 @@ export async function broadcastToUsers(userIds: mongoose.Types.ObjectId[], conne
         ]
       }).lean()
 
-    const packet = {
+    const packet:Update = {
       status: true,
+      id: 0,
       user: user
     }
 

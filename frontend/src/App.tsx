@@ -7,18 +7,16 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import { AddFriend } from './components/AddFriend/AddFriend'
 import { FriendRequests } from './components/FriendRequests/FriendRequests'
 import { CreateGC } from './components/CreateGC/CreateGC'
-import WS from './ws/ws'
+import WS, {Update} from './ws/ws'
 import { getUser } from './utils/getUser'
-import Update from './ws/update'
 
 function App() {
   const [chatIndex, setChatIndex] = useState<number | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [ws, setWS] = useState<WS | null>(null)
 
-
   const msgCallback = (update: Update) => {
-    if (update.status) {
+    if (update.status && update.user) {
       setUser(update.user)
     }
   }
@@ -38,7 +36,7 @@ function App() {
     }
   }, [])
 
-  if (!user) {
+  if (!user || !ws) {
     return <div className='App'>Not logged in</div>
   }
 
@@ -52,9 +50,9 @@ function App() {
               <Chatfield ws={ws} user={user} chatIndex={chatIndex}/>
             </div>
           }/>
-          <Route path='/add-friend' element={<AddFriend/>}/>
-          <Route path='/pending-requests' element={<FriendRequests user={user} setUser={setUser}/>}/>
-          <Route path='/create-gc' element={<CreateGC/>}/>
+          <Route path='/add-friend' element={<AddFriend ws={ws}/>}/>
+          <Route path='/pending-requests' element={<FriendRequests user={user} ws={ws}/>}/>
+          <Route path='/create-gc' element={<CreateGC ws={ws}/>}/>
         </Routes>
       </Router>
     </div>
