@@ -7,7 +7,7 @@ body {
 }
 
 .chatfield {
-  width: 70%;
+  width: 100%;
   height: 100vh;
 
   display: flex;
@@ -17,14 +17,6 @@ body {
 
 .chatfield h1 {
   text-align: center;
-}
-
-.friends-list {
-  width: 85%;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
 }
 
 .friend-name {
@@ -71,4 +63,34 @@ body {
 .sendimg {
   width: 100%;
   height: 100%;
+}
+
+.back-button {
+  display: none;
+  position: absolute;
+  top: 10vh;
+  left: 0;
+  font-size: 1.5rem;
+}
+
+.back-button-friends {
+  display: none;
+  position: absolute;
+  top: 0vh;
+  left: 0;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 780px) {
+  .chatfield {
+    width: 100%;
+  }
+
+  .chatfield.visible {
+    display: none;
+  }
+
+  .back-button, .back-button-friends {
+    display: block;
+  }
 }

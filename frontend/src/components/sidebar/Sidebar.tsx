@@ -1,22 +1,38 @@
 import "./Sidebar.css"
-import { Dispatch, SetStateAction} from "react";
+import { Dispatch, SetStateAction, useEffect, useRef} from "react";
 import { ChatComponent } from "./ChatComponent";
 import User from "../../ws/User";
 import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
-  user: User,
+  user: User
   setChatIndex: Dispatch<SetStateAction< number | null>>
+  sidebarInView: boolean
+  setSidebarView: Dispatch<SetStateAction<boolean>>
 }
 
-export const Sidebar = ({user, setChatIndex}: SidebarProps)=> {
+export const Sidebar = ({user, setChatIndex, sidebarInView, setSidebarView}: SidebarProps)=> {
   const navigate = useNavigate()
+  const sidebarRef = useRef<HTMLDivElement>(null)
+
+  const changeViewedElement = (chatIndex: number | null) => {
+    setChatIndex(chatIndex)
+    if (window.innerWidth <= 780) {
+      setSidebarView(!sidebarInView)
+      return
+    }
+  }
+
+  useEffect(() => {
+    if (sidebarRef.current) {
+      sidebarRef.current.classList.toggle("visible", sidebarInView)
+    }
+  })
 
   return (
-    <div className="sidebar">
-
+    <div ref={sidebarRef} className="sidebar">
       <div className="navbar">
-        <button className="navbar-button" onClick={() => setChatIndex(null)}>Friends</button>
+        <button className="navbar-button" onClick={() => changeViewedElement(null)}>Friends</button>
         <button className="navbar-button" onClick={() => navigate("/add-friend")}>Add Friend</button>
         <button className="navbar-button" onClick={() => navigate("/pending-requests")}>Friend requests</button>
       </div>
@@ -30,7 +46,7 @@ export const Sidebar = ({user, setChatIndex}: SidebarProps)=> {
               return <div key={chatIndex}></div>
             }
             return (
-              <button key={chatIndex} className="chat-button"  onClick={() => {setChatIndex(chatIndex)}}>
+              <button key={chatIndex} className="chat-button"  onClick={() => changeViewedElement(chatIndex)}>
                 <ChatComponent chat={chat} user={user}/>
               </button>
             )
@@ -47,7 +63,7 @@ export const Sidebar = ({user, setChatIndex}: SidebarProps)=> {
               return <div key={chatIndex}></div>
             }
             return (
-              <button key={chatIndex} className="chat-button"  onClick={() => {setChatIndex(chatIndex)}}>
+              <button key={chatIndex} className="chat-button"  onClick={() => changeViewedElement(chatIndex)}>
                 <ChatComponent chat={chat} user={user}/>
               </button>
             )

@@ -11,6 +11,7 @@ import WS, {Update} from './ws/ws'
 import { getUser } from './utils/getUser'
 
 function App() {
+  const [sidebarInView, setSidebarView] = useState<boolean>(true)
   const [chatIndex, setChatIndex] = useState<number | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [ws, setWS] = useState<WS | null>(null)
@@ -46,8 +47,8 @@ function App() {
         <Routes>
           <Route path='/' element={
             <div className='ChatContainer'>
-              <Sidebar user={user} setChatIndex={setChatIndex}/>
-              <Chatfield ws={ws} user={user} chatIndex={chatIndex}/>
+              <Sidebar user={user} setChatIndex={setChatIndex} sidebarInView={sidebarInView} setSidebarView={setSidebarView}/>
+              <Chatfield ws={ws} user={user} chatIndex={chatIndex} sidebarInView={sidebarInView} setSidebarView={setSidebarView}/>
             </div>
           }/>
           <Route path='/add-friend' element={<AddFriend ws={ws}/>}/>

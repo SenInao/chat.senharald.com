@@ -2,12 +2,12 @@ import "./Chatbox.css"
 import UserType from "../../ws/User"
 import MessageComponent from "./message"
 import {Message} from "../../ws/Chat"
-import {useEffect, useRef} from "react"
+import {Dispatch, SetStateAction, useEffect, useRef} from "react"
 import WS, {Update} from "../../ws/ws"
 import { infoLabelShow } from "../../utils/infoLabel"
 
 interface ChatboxProps {
-  user: UserType,
+  user: UserType
   chatIndex: number
   ws: WS
 }

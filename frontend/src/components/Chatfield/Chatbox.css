@@ -5,31 +5,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Add scrolling for overflow content */
+  overflow-y: auto;
 }
 
 .messages-container {
   width: 70%;
-  margin-top: 10vh;
   display: flex;
   flex-direction: column;
 }
 
-.lastelement {
-  padding: 5%;
-}
-
 .chatbox-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  position: absolute;
   align-items: center;
   justify-content: space-between;
-  width: 70%;
   height: 10vh;
   background-color: lightgray;
   border-bottom: 1px solid black;
-  border-left: 1px solid black;
 }
 
 .chatbox-header h1 {
@@ -42,4 +38,11 @@
 
 .error-label {
   display: none;
+}
+
+@media (max-width:780px) {
+  .chatbox-header {
+    width: 100%;
+    border-left: none;
+  }
 }
