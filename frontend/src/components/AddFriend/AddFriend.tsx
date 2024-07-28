@@ -14,7 +14,7 @@ export const AddFriend = ({ws}:Props) => {
   const infoRef = useRef<HTMLLabelElement>(null)
 
   const callback = (update:Update) => {
-    infoLabelShow("Friend added to gc", "green", infoRef)
+    infoLabelShow("Friend request sent", "green", infoRef)
   }
 
   const errCallback = (update:Update) => {

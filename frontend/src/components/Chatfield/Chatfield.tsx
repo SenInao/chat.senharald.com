@@ -1,9 +1,10 @@
-import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react"
+import {Dispatch, SetStateAction, useEffect, useRef} from "react"
 import { Chatbox } from "./Chatbox"
 import "./Chatfield.css"
 import { IoMdSend } from "react-icons/io";
 import WS from "../../ws/ws"
 import User from "../../ws/User"
+import MemberList from "../MemberList/MemberList";
 
 interface ChatfieldProps {
   ws: WS
@@ -29,7 +30,7 @@ export const Chatfield = ({ws, user, chatIndex, sidebarInView, setSidebarView}:C
       if (!inputRef.current.value) {
         return
       }
-      ws.send("create-message", {chatId: user.chats[chatIndex]._id, author: user.id, content: inputRef.current.value})
+      ws.send("create-message", {chatId: user.chats[chatIndex]._id, author: user._id, content: inputRef.current.value})
       inputRef.current.value = ""
     }
   }
@@ -57,6 +58,8 @@ export const Chatfield = ({ws, user, chatIndex, sidebarInView, setSidebarView}:C
   return (
     <div ref={chatfieldRef} className="chatfield">
       <button className="back-button" onClick={() => setSidebarView(true)}>Back</button>
+      {!user.chats[chatIndex].dm ? <MemberList chat={user.chats[chatIndex]}/> : <div></div>}
+      
       <Chatbox user={user} chatIndex={chatIndex} ws={ws}/>
 
       <div className="sending-container">

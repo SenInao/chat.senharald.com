@@ -1,23 +1,16 @@
 import dotenv from "dotenv"
 dotenv.config()
-
-import { WebSocketServer, WebSocket } from "ws";
+import { WebSocketServer} from "ws";
 import {Packet, Connection} from "./ws/packet";
 import actionHandler from "./ws/actionHandler"
 import Result from "./ws/result";
 import dbConnect from "./config/db";
-import findUserByWs from "./utils/findUserByWs";
+import removeUserConnected from "./utils/removeUserConnected";
 
 dbConnect()
 
 const usersConnected: Connection[] = []
 
-function removeUserConnected(ws: WebSocket) {
-    const i = findUserByWs(ws, usersConnected)
-    if (i !== false) {
-      usersConnected.splice(i, 1)
-    }
-} 
 
 let port = process.env.PORT || 3000
 
@@ -47,11 +40,11 @@ wss.on('connection', (ws) => {
   })
 
   ws.on("close", () => {
-    removeUserConnected(ws)
+    removeUserConnected(ws, usersConnected)
   })
 
   ws.on("error", (error) => {
     console.log(error)
-    removeUserConnected(ws)
+    removeUserConnected(ws, usersConnected)
   })
 })

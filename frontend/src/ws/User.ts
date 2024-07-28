@@ -1,13 +1,13 @@
 import { Chat } from "./Chat"
 
 interface User {
-  id: String,
-  fullname: String,
-  username: String,
-  email: String,
-  profilePicture: string,
-  chats: Chat[],
-  friends: User[],
+  _id: string
+  fullname: string
+  username: string
+  email: string
+  profilePicture: string
+  chats: Chat[]
+  friends: User[]
   friendRequests: User[]
 }
 

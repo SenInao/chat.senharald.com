@@ -26,7 +26,8 @@ async function createMessage(packet: Packet) {
   const msg = {
     chatId: chat.id,
     author: user.id,
-    content: packet.payload.content
+    content: packet.payload.content,
+    usersRead: [user.id]
   }
 
   const message = await Message.create(msg)

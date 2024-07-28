@@ -2,16 +2,17 @@ import "./ChatComponent.css"
 import { Chat } from "../../ws/Chat"
 import User from "../../ws/User"
 import { CgProfile } from "react-icons/cg";
-import { useRef } from "react";
+import NotificationComponent from "../Notification/Notification";
 
 interface UserProp {
-  chat: Chat,
-  user: User,
+  chat: Chat
+  user: User
 }
 
 export const ChatComponent = ({chat, user}:UserProp) => {
   var title = chat.title
   var chatpicture
+  var notifications: number = 0
 
   if (chat.dm) {
     if (user.username === chat.users[0].username) {
@@ -23,10 +24,19 @@ export const ChatComponent = ({chat, user}:UserProp) => {
     }
   }
 
+  chat.messages.forEach((message) => {
+    if (!message.usersRead.includes(user._id)) {
+      notifications+=1
+    }
+  })
+
   return (
     <div className="chat-container">
-      {chatpicture ? <img className="image" src={chatpicture}/> : <div><CgProfile size={50}/></div>}
-      <label>{title}</label>
+      <div className="items-left">
+        {chatpicture ? <img className="image" src={chatpicture}/> : <div><CgProfile size={50}/></div>}
+        <label>{title}</label>
+      </div>
+      <NotificationComponent size={30} notifications={notifications}/>
     </div>
   )
 }

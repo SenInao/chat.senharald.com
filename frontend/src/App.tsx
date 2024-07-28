@@ -12,6 +12,7 @@ import { getUser } from './utils/getUser'
 
 function App() {
   const [sidebarInView, setSidebarView] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
   const [chatIndex, setChatIndex] = useState<number | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [ws, setWS] = useState<WS | null>(null)
@@ -19,6 +20,9 @@ function App() {
   const msgCallback = (update: Update) => {
     if (update.status && update.user) {
       setUser(update.user)
+      if (user && chatIndex !== null && ws) {
+        ws.send("read-chat-messages", {chatId: user.chats[chatIndex]._id})
+      }
     }
   }
 
@@ -26,6 +30,7 @@ function App() {
     try {
       getUser().then(newUser => {
         if (newUser) {
+          newUser._id = newUser.id
           setUser(newUser)
           const newWs = new WS("ws://localhost:8080", newUser.id)
           newWs.msgCallback = msgCallback
@@ -35,10 +40,27 @@ function App() {
     } catch (error) {
       console.log(error)
     }
+    setLoading(false)
   }, [])
 
+  if (loading) {
+    return (
+      <div className='no-access'>
+        <h1>Loading</h1>
+      </div>
+    )
+  }
+
   if (!user || !ws) {
-    return <div className='App'>Not logged in</div>
+    return (
+      <div className='no-access'>
+        <h1>Not logged in</h1>
+        <div>
+          <button onClick={() => {window.location.href = "http://senharald.com/login?redirect=chat.senharald.com"}}>Log in</button>
+          <button onClick={() => {window.location.href = "http://senharald.com/register?redirect=chat.senharald.com"}}>Register</button>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -47,7 +69,7 @@ function App() {
         <Routes>
           <Route path='/' element={
             <div className='ChatContainer'>
-              <Sidebar user={user} setChatIndex={setChatIndex} sidebarInView={sidebarInView} setSidebarView={setSidebarView}/>
+              <Sidebar user={user} setChatIndex={setChatIndex} sidebarInView={sidebarInView} setSidebarView={setSidebarView} ws={ws}/>
               <Chatfield ws={ws} user={user} chatIndex={chatIndex} sidebarInView={sidebarInView} setSidebarView={setSidebarView}/>
             </div>
           }/>

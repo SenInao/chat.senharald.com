@@ -1,0 +1,19 @@
+.member-list {
+  background-color: var(--secondary-bg-color);
+  position: absolute;
+  top: 10vh;
+  right: 0;
+
+  text-align: center;
+  width: 8.5rem;
+  border: 1px solid black;
+}
+.member-list ul {
+  margin: 10px;
+  padding: 0;
+}
+
+.member-list li {
+  background-color: var(--secondary-bg-color);
+  list-style: none;
+}

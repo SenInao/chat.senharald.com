@@ -16,6 +16,12 @@ const messageSchema = new mongoose.Schema(
       type:String,
       required:true
     },
+    usersRead: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "User"
+      }
+    ]
   }, {timestamps:true}
 )
 

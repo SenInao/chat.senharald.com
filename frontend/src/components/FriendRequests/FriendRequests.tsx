@@ -38,7 +38,7 @@ export const FriendRequests = ({user, ws}: Props) => {
         </ul>
       </div>
 
-      <button onClick={() => navigate("/")}>Back</button>
+      <button className="back-button-friend-request" onClick={() => navigate("/")}>Back</button>
     </div>
   )
 }

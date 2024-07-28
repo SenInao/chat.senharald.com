@@ -1,6 +1,18 @@
 .chat-container{
   margin: 1.3rem;
   font-size: 1.5rem;
+  font-family: 'Times New Roman', Times, serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-container label {
+  margin: 1rem;
+}
+
+.items-left {
   display: flex;
   flex-direction: row;
   align-items: center;

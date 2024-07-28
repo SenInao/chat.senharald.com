@@ -1,18 +1,19 @@
 import UserType from "./User"
 
 export interface Message {
-  _id: String,
-  chatId: String,
-  author: UserType,
-  content: String
-  createdAt: String,
-  updatedAt: String,
+  _id: string
+  chatId: string
+  author: UserType
+  content: string
+  usersRead: string[]
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Chat {
-  _id: String,
-  dm: Boolean,
-  title: String,
-  users: UserType[],
+  _id: string
+  dm: Boolean
+  title: string
+  users: UserType[]
   messages: Message[]
 }

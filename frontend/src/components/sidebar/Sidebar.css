@@ -1,8 +1,9 @@
 .sidebar {
+  font-family: 'Times New Roman', Times, serif;
   display: block;
   width: max(20%, 25rem);
   height: 100vh;
-  background-color: lightgray;
+  background-color: var(--secondary-bg-color);
 
   justify-content: center;
   border-right: 1px solid black;
@@ -11,6 +12,7 @@
 
 .sidebar h3 {
   font-size: 2rem;
+  display: flex;
 }
 
 .navbar {
@@ -19,11 +21,18 @@
 }
 
 .navbar-button {
+  font-family: 'Times New Roman', Times, serif;
   font-size: 1.2rem;
-  margin: 5px;
+  margin: 0.5rem;
+  padding: 1.1rem;
   border-radius: 20px;
   border: 1px solid gray;
-  background-color: lightgrey;
+  background-color: var(--primary-bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .navbar-button:hover {
@@ -35,6 +44,7 @@
   border: 1px solid gray;
   background-color: lightgrey;
   color: black;
+  margin: 1rem;
 }
 
 .add-button:hover {
@@ -52,7 +62,9 @@
   width: 90%;
   border: none;
   border-radius: 5px;
-  background-color: lightgrey;
+  background-color: var(--primary-bg-color);
+  color: var(--text-color);
+  margin: 1rem;
 }
 
 .chat-button:hover {

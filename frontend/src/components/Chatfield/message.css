@@ -18,6 +18,7 @@
 }
 
 .my-message .message-content {
+  color: var(--secondary-bg-color);
   background-color: lightgreen;
 }
 
@@ -26,5 +27,6 @@
 }
 
 .friend-message .message-content {
-  background-color: lightgray;
+  color: var(--secondary-bg-color);
+  background-color: var(--text-color);
 }

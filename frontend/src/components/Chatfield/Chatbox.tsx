@@ -2,7 +2,7 @@ import "./Chatbox.css"
 import UserType from "../../ws/User"
 import MessageComponent from "./message"
 import {Message} from "../../ws/Chat"
-import {Dispatch, SetStateAction, useEffect, useRef} from "react"
+import {useEffect, useRef} from "react"
 import WS, {Update} from "../../ws/ws"
 import { infoLabelShow } from "../../utils/infoLabel"
 
@@ -68,7 +68,7 @@ export const Chatbox = ({chatIndex, user, ws}:ChatboxProps) => {
         {!chat.dm ? 
           <div>
             <label ref={errorlabelRef} className="error-label">error</label>
-            <input ref={inputRef} placeholder="Add friend" type="text"/>
+            <input className="add-user-input" ref={inputRef} placeholder="Add friend to chat" type="text"/>
             <button onClick={() => addFriendToChat()} className="add-button">+</button>
           </div>
           : 

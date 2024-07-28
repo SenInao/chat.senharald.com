@@ -1,7 +1,7 @@
 .chatbox {
   width: 100%;
   height: 90vh;
-  background-color: white;
+  background-color: var(--primary-bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,6 +15,7 @@
 }
 
 .chatbox-header {
+  margin-bottom: 3rem;
   position: sticky;
   top: 0;
   left: 0;
@@ -24,8 +25,17 @@
   align-items: center;
   justify-content: space-between;
   height: 10vh;
-  background-color: lightgray;
+  background-color: var(--secondary-bg-color);
   border-bottom: 1px solid black;
+}
+
+.add-user-input {
+  font-family: 'Times New Roman', Times, serif;
+  border: none;
+  width: 10rem;
+  height: 1.5rem;
+  background-color: var(--text-color);
+  color: black;
 }
 
 .chatbox-header h1 {
@@ -37,12 +47,18 @@
 }
 
 .error-label {
+  font-size: 1.1rem;
   display: none;
 }
 
 @media (max-width:780px) {
   .chatbox-header {
+    font-size: 0.8rem;
     width: 100%;
     border-left: none;
+  }
+
+  .chatbox-header input {
+    width: 4rem;
   }
 }
