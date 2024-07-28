@@ -15,7 +15,6 @@
 }
 
 .chatbox-header {
-  margin-bottom: 3rem;
   position: sticky;
   top: 0;
   left: 0;
@@ -27,6 +26,27 @@
   height: 10vh;
   background-color: var(--secondary-bg-color);
   border-bottom: 1px solid black;
+}
+
+.chatbox-header-2 {
+  width: 100%;
+  position: sticky;
+  top: 10vh;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.back-button {
+  width: 6rem;
+  height: 2rem;
+  border: none;
+  background-color: var(--text-color);
+  display: none;
+  font-size: 1.5rem;
+  border: 1px solid black;
+  margin-bottom: 3rem;
 }
 
 .add-user-input {

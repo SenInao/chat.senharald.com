@@ -2,17 +2,19 @@ import "./Chatbox.css"
 import UserType from "../../ws/User"
 import MessageComponent from "./message"
 import {Message} from "../../ws/Chat"
-import {useEffect, useRef} from "react"
+import {Dispatch, useEffect, useRef, SetStateAction} from "react"
 import WS, {Update} from "../../ws/ws"
 import { infoLabelShow } from "../../utils/infoLabel"
+import MemberList from "../MemberList/MemberList";
 
 interface ChatboxProps {
   user: UserType
   chatIndex: number
   ws: WS
+  setSidebarView: Dispatch<SetStateAction<boolean>>
 }
 
-export const Chatbox = ({chatIndex, user, ws}:ChatboxProps) => {
+export const Chatbox = ({chatIndex, user, ws, setSidebarView}:ChatboxProps) => {
   const chat = user.chats[chatIndex]
   const errorlabelRef = useRef<HTMLLabelElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -75,6 +77,11 @@ export const Chatbox = ({chatIndex, user, ws}:ChatboxProps) => {
           <div></div>
         }
       </div>
+      <div className="chatbox-header-2">
+        {chatIndex !== null ? <button className="back-button" onClick={() => setSidebarView(true)}>Back</button> :<div></div>}
+        {!user.chats[chatIndex].dm ? <MemberList chat={user.chats[chatIndex]}/> : <div></div>}
+      </div>
+      
       <div className="messages-container">
         {
           chat.messages.map((message: Message) => {

@@ -71,19 +71,15 @@ body {
   height: 100%;
 }
 
-.back-button, .back-button-friends {
+.back-button-friends {
   border: none;
   background-color: var(--text-color);
   display: none;
   position: absolute;
+  top: 0vh;
   left: 0;
   font-size: 1.5rem;
-  top: 10vh;
   border: 1px solid black;
-}
-
-.back-button-friends {
-  top: 0vh;
 }
 
 .back-button:hover, .back-button-friends:hover {

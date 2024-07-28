@@ -57,10 +57,7 @@ export const Chatfield = ({ws, user, chatIndex, sidebarInView, setSidebarView}:C
 
   return (
     <div ref={chatfieldRef} className="chatfield">
-      <button className="back-button" onClick={() => setSidebarView(true)}>Back</button>
-      {!user.chats[chatIndex].dm ? <MemberList chat={user.chats[chatIndex]}/> : <div></div>}
-      
-      <Chatbox user={user} chatIndex={chatIndex} ws={ws}/>
+      <Chatbox user={user} chatIndex={chatIndex} ws={ws} setSidebarView={setSidebarView}/>
 
       <div className="sending-container">
         <input ref={inputRef} className="chat-input" type="text" onKeyDown={handleKeyPress}/>

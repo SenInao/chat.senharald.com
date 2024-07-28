@@ -32,7 +32,7 @@ function App() {
         if (newUser) {
           newUser._id = newUser.id
           setUser(newUser)
-          const newWs = new WS("ws://localhost:8080", newUser.id)
+          const newWs = new WS("ws://chat.senharald.com/ws", newUser.id)
           newWs.msgCallback = msgCallback
           setWS(newWs)
         }

@@ -1,8 +1,5 @@
 .member-list {
   background-color: var(--secondary-bg-color);
-  position: absolute;
-  top: 10vh;
-  right: 0;
 
   text-align: center;
   width: 8.5rem;
