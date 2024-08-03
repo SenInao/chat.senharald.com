@@ -49,8 +49,6 @@ class WS {
   };
 
   connect() {
-    this.ws = new WebSocket(this.url)
-
     this.ws.onopen = () => {
       this.state = CONNECTED
       this.send("register")
