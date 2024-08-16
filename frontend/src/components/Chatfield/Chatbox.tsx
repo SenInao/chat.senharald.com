@@ -79,7 +79,6 @@ export const Chatbox = ({chatIndex, user, ws, setSidebarView}:ChatboxProps) => {
       </div>
       <div className="chatbox-header-2">
         {chatIndex !== null ? <button className="back-button" onClick={() => setSidebarView(true)}>Back</button> :<div></div>}
-        {!user.chats[chatIndex].dm ? <MemberList chat={user.chats[chatIndex]}/> : <div></div>}
       </div>
       
       <div className="messages-container">
