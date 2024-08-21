@@ -19,7 +19,7 @@ export const Chatbox = ({chatIndex, user, ws, setSidebarView}:ChatboxProps) => {
   const errorlabelRef = useRef<HTMLLabelElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const callback = (update: Update) => {
+  const callback = () => {
     infoLabelShow("Friend added to gc", "green", errorlabelRef)
   }
 

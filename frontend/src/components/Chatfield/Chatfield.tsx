@@ -4,7 +4,6 @@ import "./Chatfield.css"
 import { IoMdSend } from "react-icons/io";
 import WS from "../../ws/ws"
 import User from "../../ws/User"
-import MemberList from "../MemberList/MemberList";
 
 interface ChatfieldProps {
   ws: WS
