@@ -1,0 +1,22 @@
+.chat-content {
+  height: 100%;
+  width: 80%;
+
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+/* Hide scrollbar for WebKit browsers */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.chat-content::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and other WebKit browsers */
+}
+
+@media (max-width:780px) {
+  .chat-content {
+    height: 78%;
+  }
+}

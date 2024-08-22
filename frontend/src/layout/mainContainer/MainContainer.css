@@ -1,0 +1,12 @@
+.mainContainer {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 779px) {
+  .mainContainer {
+    width: 100%;
+  }
+}

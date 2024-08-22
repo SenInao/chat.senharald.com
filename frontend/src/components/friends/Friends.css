@@ -1,0 +1,16 @@
+.friends {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.friends ul {
+  list-style: none;
+}
+
+.friends ul li {
+  text-align: center;
+  font-size: 2rem;
+  margin: 2rem;
+}

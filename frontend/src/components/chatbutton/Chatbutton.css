@@ -1,0 +1,21 @@
+.chatbutton {
+  width: 80%;
+  height: 4rem;
+  margin: 5px;
+
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chatbutton label {
+  cursor: pointer;
+}
+
+.chatbutton:hover {
+  transform: scale(1.1);
+}

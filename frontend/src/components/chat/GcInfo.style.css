@@ -1,0 +1,17 @@
+.gc-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 10px;
+}
+
+.gc-info ul {
+  margin: 10px;
+}
+
+.gc-info ul li {
+  font-size: 1.2rem;
+  list-style: none;
+  margin: 5px;
+}

@@ -1,0 +1,22 @@
+:root {
+  --main-color: #212529;
+  --secondary-color: #343a40;
+  --text-color: #e9ecef;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  background-color: var(--main-color);
+  color: var(--text-color);
+}
