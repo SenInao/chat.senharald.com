@@ -12,6 +12,8 @@ export interface MainWindow {
   setTitle : (title: string) => void
   sidebarVisible : boolean
   setSidebarVisible : (state: boolean) => void
+  showInfo : boolean
+  setShowInfo : (state: boolean) => void
 }
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [MainContent, setMainContent] = useState<React.ComponentType>(() => Friends)
   const [headerTitle, setHeaderTitle] = useState<string>("Friends")
+  const [showInfo, setShowInfo] = useState<boolean>(true)
 
   const context = useContext(WsProvider)
 
@@ -33,6 +36,8 @@ function App() {
     setTitle : setHeaderTitle,
     sidebarVisible : sidebarVisible,
     setSidebarVisible : setSidebarVisible,
+    showInfo : showInfo,
+    setShowInfo : setShowInfo
   }
 
   useEffect(() => {

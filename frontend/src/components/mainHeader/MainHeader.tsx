@@ -1,10 +1,9 @@
 import "./MainHeader.css"
 import { FaArrowLeft } from "react-icons/fa";
-import { IoReorderThreeOutline } from "react-icons/io5";
 import { MainWindow } from "../../App";
-import GcInfo from "../chat/GcInfo";
 import { useContext } from "react";
 import { WsProvider } from "../../context/WsContext";
+import MoreButton from "./MoreButton";
 
 interface Props {
   mainWindow: MainWindow
@@ -21,13 +20,7 @@ const MainHeader : React.FC<Props> = ({mainWindow}) => {
         <FaArrowLeft/>
       </div>
       <label className="header-title">{mainWindow.title}</label>
-      {chat && !chat.dm ? (
-        <div className="more-button" onClick={() => {
-          mainWindow.setContent(() => GcInfo)
-        }}>
-          <IoReorderThreeOutline/> 
-        </div>
-      ) : null}
+      <MoreButton mainWindow={mainWindow}/>
     </div>
   )
 }

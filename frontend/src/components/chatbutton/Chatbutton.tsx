@@ -21,6 +21,7 @@ const Chatbutton : React.FC<Props> = ({mainWindow, chat, chatname}) => {
     mainWindow.setSidebarVisible(!mainWindow.sidebarVisible)
     mainWindow.setTitle(title)
     mainWindow.setContent(() => component)
+    mainWindow.setShowInfo(true)
     if (ws && ws.state) {
       ws.send("read-chat-messages", {chatId: chat._id})
     }
